@@ -295,13 +295,29 @@ return [
             'icon'    => 'fas fa-fw fa-broom',
             'submenu' => [
                 [
-                    'text' => 'Listar Serviços',
+                    'text' => 'Lista de Serviços',
                     'route'  => 'servicos.index',
                     'icon'    => 'fas fa-fw fa-list',
                 ],
                 [
                     'text'    => 'Novo Serviço',
                     'route'     => 'servicos.create',
+                    'icon'    => 'fas fa-fw fa-file',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Cadastro de Usuários',
+            'icon'    => 'fas fa-fw fa-user',
+            'submenu' => [
+                [
+                    'text' => 'Lista de Usuários',
+                    'route'  => 'usuarios.index',
+                    'icon'    => 'fas fa-fw fa-list',
+                ],
+                [
+                    'text'    => 'Novo Usuário',
+                    'route'     => 'usuarios.create',
                     'icon'    => 'fas fa-fw fa-file',
                 ],
             ],

@@ -17,15 +17,24 @@
             <tr>
                 <th>#</th>
                 <th>Nome</th>
+                <th>E-mail</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($servicos as $item )
+            @forelse ($usuarios as $item )
                 <tr>
                     <td>{{$item->id}}</td>
-                    <td>{{$item->nome}}</td>
-                    <td><a href="{{ route('servicos.edit', $item->id) }}"><i class="fas fa-eye btn btn-sm btn-dark"></i></a></td>
+                    <td>{{$item->name}}</td>
+                    <td>{{$item->email}}</td>
+                    <td>
+                        <a href="{{ route('usuarios.edit', $item) }}" class="btn btn-dark"><i class="fas fa-eye"></i></a>
+                        <form action="{{ route('usuarios.destroy', $item) }}" method="post" style="display: inline">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Deseja realmente apagar?')"><i class="fas fa-times"></i></button>
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr>
@@ -37,10 +46,10 @@
         </tbody>
     </table>
     <div class="d-flex justify-content-center">
-        {{$servicos->links()}}
+        {{$usuarios->links()}}
     </div>
 
     <div class="float-right">
-        <a href="{{route('servicos.create')}}" class="btn btn-success">Novo serviço</a>
+        <a href="{{route('usuarios.create')}}" class="btn btn-success">Novo usuário</a>
     </div>
 @stop
