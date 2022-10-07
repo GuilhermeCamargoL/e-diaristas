@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
-@section('title', 'E-Diaristas')
+@section('title', 'E-diaristas')
 
 @section('content_header')
-    <h1>E-Diaristas</h1>
+    <h1>E-diaristas</h1>
 @stop
 
 @section('content')
-    <p>Bem vindo!</p>
+    <p>Salve zé <b>Diaristas aqui</b>.</p>
 @stop

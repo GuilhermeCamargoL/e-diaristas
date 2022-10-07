@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'E-Diaristas',
+    'title' => 'Diaristas',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>E-Diaristas</b>',
+    'logo' => '<b>Administração</b>',
     'logo_img' => 'logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -290,20 +290,19 @@ return [
     */
 
     'menu' => [
-        // Sidebar items:
         [
-            'text'    => 'Serviços',
+            'text'    => 'Cadastro de Serviços',
             'icon'    => 'fas fa-fw fa-broom',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'icon' => 'fas fa-list',
-                    'url'  => '#',
+                    'text' => 'Listar Serviços',
+                    'route'  => 'servicos.index',
+                    'icon'    => 'fas fa-fw fa-list',
                 ],
                 [
-                    'text' => 'level_one',
-                    'icon' => 'fas fa-file',
-                    'url'  => '#',
+                    'text'    => 'Novo Serviço',
+                    'route'     => 'servicos.create',
+                    'icon'    => 'fas fa-fw fa-file',
                 ],
             ],
         ],
