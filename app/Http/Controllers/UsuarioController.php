@@ -22,7 +22,7 @@ class UsuarioController extends Controller
         ]);
     }
 
-    /** 
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -77,7 +77,7 @@ class UsuarioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\UsuarioRequest  $request
-     * @param  int  $id
+     * @param  User $usuario
      * @return \Illuminate\Http\Response
      */
     public function update(UsuarioRequest $request, User $usuario)

@@ -59,14 +59,12 @@ class ServicoController extends Controller
      * Atualiza um registro no banco de dados
      *
      * @param ServicoRequest $request
-     * @param [type] $id
+     * @param Servico $servico
      * @return void
      */
-    public function update(ServicoRequest $request, $id)
+    public function update(ServicoRequest $request, Servico $servico)
     {
         $dados = $request->except(['_token', '_method']);
-
-        $servico = Servico::findOrFail($id);
 
         $servico->update($dados);
 

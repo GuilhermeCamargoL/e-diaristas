@@ -12,5 +12,5 @@
     <form action="{{ route('servicos.store') }}" method="post">
         @include('servicos.form')
     </form>
-    
+
 @stop
