@@ -7,6 +7,7 @@ use App\Http\Resources\DiaristaPublico;
 use App\Http\Resources\DiaristaPublicoCollection;
 use App\Models\UserApi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ObtemDiaristasPorCEP extends Controller
 {
@@ -18,8 +19,13 @@ class ObtemDiaristasPorCEP extends Controller
      */
     public function __invoke(Request $request)
     {
-        $diaristas = UserApi::diarista()->get();
+        $cep = $request->cep;
 
-        return new DiaristaPublicoCollection($diaristas);
+        $dados = Http::get("https://viacep.com.br/ws/$cep/json/")->json();
+
+        return new DiaristaPublicoCollection(
+            UserApi::diaristasDisponivelCidade($dados['ibge']),
+            UserApi::diaristasDisponivelCidadeTotal($dados['ibge'])
+        );
     }
 }

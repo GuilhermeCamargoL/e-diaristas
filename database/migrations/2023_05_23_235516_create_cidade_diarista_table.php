@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('cidade_diarista', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_api_id');
             $table->foreign('user_api_id')->references('id')->on('users_api');
 
             $table->unsignedBigInteger('cidade_id');
