@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers\Diarista;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\DiaristaPublico;
-use App\Http\Resources\DiaristaPublicoCollection;
 use App\Models\UserApi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\DiaristaPublicoCollection;
+use App\Services\ConsultaCEP\ConsultaCEPinterface;
 
 class ObtemDiaristasPorCEP extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Busca diaristas pelo cep
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param ConsultaCEPinterface $servicoCEP
+     * @param DiaristaPublicoCollection
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, ConsultaCEPinterface $servicoCEP): DiaristaPublicoCollection
     {
-        $cep = $request->cep;
+        $cep = $servicoCEP->buscar($request->cep ?? '');
 
-        $dados = Http::get("https://viacep.com.br/ws/$cep/json/")->json();
+        if($cep === false){
+            return response()->json(['erro' => 'CEP inválido'], 400);
+        }
 
         return new DiaristaPublicoCollection(
-            UserApi::diaristasDisponivelCidade($dados['ibge']),
-            UserApi::diaristasDisponivelCidadeTotal($dados['ibge'])
+            UserApi::diaristasDisponivelCidade($cep->ibge),
+            UserApi::diaristasDisponivelCidadeTotal($cep->ibge)
         );
     }
 }

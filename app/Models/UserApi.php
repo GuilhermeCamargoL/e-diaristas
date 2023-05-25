@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class UserApi extends Model
 {
@@ -15,9 +17,9 @@ class UserApi extends Model
     /**
      * Define a relação com as cidades atendidas pelo(a) diarista
      *
-     * @return void
+     * @return BelongsToMany
      */
-    public function cidadesAtendidas()
+    public function cidadesAtendidas(): BelongsToMany
     {
         return $this->belongsToMany(Cidade::class, 'cidade_diarista');
     }
@@ -51,11 +53,11 @@ class UserApi extends Model
      * Busca 1 diarista por código do IBGE
      *
      * @param integer $codigoIbge
-     * @return void
+     * @return Collection
      */
-    static public function diaristasDisponivelCidade(int $codigoIbge)
+    static public function diaristasDisponivelCidade(int $codigoIbge): Collection
     {
-        return UserApi::diaristaAtendeCidade($codigoIbge)->limit(1)->get();
+        return UserApi::diaristaAtendeCidade($codigoIbge)->limit(3)->get();
     }
 
     /**

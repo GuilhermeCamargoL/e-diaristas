@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use App\Services\ConsultaCEP\Providers\ViaCEP;
+use App\Services\ConsultaCEP\ConsultaCEPinterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(ConsultaCEPinterface::class, function($app) {
+            return new ViaCEP;
+        });
     }
 
     /**
