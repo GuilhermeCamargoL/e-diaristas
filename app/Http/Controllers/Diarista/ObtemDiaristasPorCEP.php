@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DiaristaPublicoCollection;
 use App\Services\ConsultaCEP\ConsultaCEPinterface;
+use Illuminate\Validation\ValidationException;
 
 class ObtemDiaristasPorCEP extends Controller
 {
@@ -19,15 +20,19 @@ class ObtemDiaristasPorCEP extends Controller
      */
     public function __invoke(Request $request, ConsultaCEPinterface $servicoCEP): DiaristaPublicoCollection
     {
-        $cep = $servicoCEP->buscar($request->cep ?? '');
+        $request->validate([
+            'cep' => ['required', 'numeric']
+        ]);
 
-        if($cep === false){
-            return response()->json(['erro' => 'CEP inválido'], 400);
+        $dados = $servicoCEP->buscar($request->cep);
+
+        if($dados === false){
+            throw ValidationException::withMessages(['cep' => 'Cep inválido']);
         }
 
         return new DiaristaPublicoCollection(
-            UserApi::diaristasDisponivelCidade($cep->ibge),
-            UserApi::diaristasDisponivelCidadeTotal($cep->ibge)
+            UserApi::diaristasDisponivelCidade($dados->ibge),
+            UserApi::diaristasDisponivelCidadeTotal($dados->ibge)
         );
     }
 }
