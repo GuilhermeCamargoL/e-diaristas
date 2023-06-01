@@ -19,3 +19,6 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/diaristas/localidades', App\Http\Controllers\Diarista\ObtemDiaristasPorCEP::class)->name('diaristas.busca_por_cep');
+
+Route::get('/diaristas/disponibilidade', App\Http\Controllers\Diarista\VerificaDisponibilidade::class)->name('enderecos.disponibilidade');
+Route::get('/enderecos', App\Http\Controllers\Endereco\BuscaCepApiExterna::class)->name('enderecos.cep');
