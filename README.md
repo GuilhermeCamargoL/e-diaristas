@@ -1,49 +1,91 @@
-## Projeto sistema administrativo da plataforma E-Diaristas
+# E-Diaristas
 
-Desenvolvido no curso multi-stack da treinaweb
+Sistema administrativo de serviços para diaristas, preparado para portfolio.
 
-### Instalando o projeto
+## Visão geral
 
-#### Clonar o repositório
+- Painel administrativo com autenticação.
+- Cadastro e edição de usuários.
+- Cadastro e edição de serviços com valores e tempos.
+- Configurado para funcionar com SQLite localmente.
 
-```
+## Tech stack
+
+- Laravel 9
+- PHP 8
+- Bootstrap 5
+- Vite
+- SQLite
+
+## Instalação
+
+1. Clone o repositório:
+
+```bash
 git clone https://github.com/GuilhermeCamargoL/e-diaristas.git
+cd e-diaristas
 ```
 
-#### Instalar as depencências
+2. Instale dependências PHP:
 
-```
+```bash
 composer install
 ```
 
-Ou em ambiente de desenvolvimento:
+3. Instale dependências front-end:
 
-```
-composer update
-```
-
-#### Criar arquivo de configurações de ambiente
-
-Copiar o arquivo de exemplo `.env.example` para `.env` na raiz do projeto
-configurar os detalhes da aplicação e conexão com o banco de dados.
-
-#### Criar a estrutura no banco de dados
-
-```
-php artisan migrate
+```bash
+npm install
 ```
 
-#### Criar o usuário admin
+4. Copie o arquivo de ambiente:
 
+```bash
+copy .env.example .env
 ```
-php artisan db:seed
+
+5. Crie o arquivo SQLite:
+
+```bash
+type nul > database\database.sqlite
 ```
 
-Usuário criado admin@admin.com  
-Senha: 123123
+6. Gere a chave de aplicativo:
 
-#### Iniciar o servidor de desenvolvimento
-
+```bash
+php artisan key:generate
 ```
+
+7. Execute migrações e seeders:
+
+```bash
+php artisan migrate --seed
+```
+
+8. Execute o servidor:
+
+```bash
 php artisan serve
+npm run dev
 ```
+
+## Configuração SQLite
+
+O projeto usa SQLite por padrão para facilitar o uso em portfólio.
+
+No arquivo `.env`, certifique-se de ter:
+
+```dotenv
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
+```
+
+## Login padrão
+
+- Email: `admin@admin.com`
+- Senha: `123123`
+
+## Observações
+
+- O arquivo `database/database.sqlite` já está configurado para uso local.
+- Não é necessário configurar MySQL para desenvolvimento.
