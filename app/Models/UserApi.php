@@ -14,6 +14,18 @@ class UserApi extends Model
 
     protected $table = 'users_api';
 
+    protected $fillable = [
+        'nome_completo',
+        'cpf',
+        'nascimento',
+        'foto_documento',
+        'foto_usuario',
+        'telefone',
+        'tipo_usuario',
+        'chave_pix',
+        'reputacao',
+    ];
+
     /**
      * Define a relação com as cidades atendidas pelo(a) diarista
      *
@@ -22,6 +34,18 @@ class UserApi extends Model
     public function cidadesAtendidas(): BelongsToMany
     {
         return $this->belongsToMany(Cidade::class, 'cidade_diarista');
+    }
+
+    /**
+     * Define os servicos que o(a) diarista oferece com precificacao propria.
+     *
+     * @return BelongsToMany
+     */
+    public function servicos(): BelongsToMany
+    {
+        return $this->belongsToMany(Servico::class, 'diarista_servico')
+            ->withPivot(['valor', 'tempo_estimado_horas'])
+            ->withTimestamps();
     }
 
     /**

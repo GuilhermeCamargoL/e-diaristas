@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Servico;
+use App\Models\UserApi;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $topDiaristas = UserApi::diarista()
+            ->with('servicos:id,nome')
+            ->orderByDesc('reputacao')
+            ->limit(4)
+            ->get();
+
+        return view('home', [
+            'topDiaristas' => $topDiaristas,
+            'servicosCount' => Servico::count(),
+            'usuariosCount' => User::count(),
+        ]);
     }
 }

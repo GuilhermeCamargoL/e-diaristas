@@ -16,16 +16,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users_admin')->insert([
-            'name' => 'admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('123123')
-        ]);
-        // \App\Models\User::factory(10)->create();
+        DB::table('users')->updateOrInsert(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'admin',
+                'password' => Hash::make('123123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call([
+            CidadeSeeder::class,
+            DiaristaSeeder::class,
+            ServicoSeeder::class,
+            DiaristaServicoSeeder::class,
+        ]);
     }
 }
