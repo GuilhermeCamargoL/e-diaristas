@@ -22,6 +22,7 @@ Route::get('/', App\Http\Controllers\IndexController::class);
 
 
 Route::get('/diaristas/localidades', App\Http\Controllers\Diarista\ObtemDiaristasPorCEP::class)->name('diaristas.busca_por_cep');
+Route::post('/diaristas', App\Http\Controllers\Diarista\CadastraDiarista::class)->name('diaristas.cadastra');
 
 Route::get('/diaristas/disponibilidade', App\Http\Controllers\Diarista\VerificaDisponibilidade::class)->name('enderecos.disponibilidade');
 Route::get('/enderecos', App\Http\Controllers\Endereco\BuscaCepApiExterna::class)->name('enderecos.cep');

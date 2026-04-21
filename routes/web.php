@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DiaristaApiController;
 use App\Http\Controllers\ServicoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\Auth\LoginController;
@@ -18,6 +20,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'showLoginForm']);
 
+Route::get('/api/docs/openapi.yaml', function () {
+    return response(
+        file_get_contents(base_path('docs/openapi.yaml')),
+        200,
+        ['Content-Type' => 'application/yaml; charset=UTF-8']
+    );
+})->name('api.docs.spec');
+
+Route::get('/api/docs', function () {
+    return view('api_docs');
+})->name('api.docs');
+
 Auth::routes(['register' => false]);
 
 Route::middleware('auth')->group(function () {
@@ -26,12 +40,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('usuarios', UsuarioController::class);
 
-    //Rotas serviçoes
-    Route::get('/servicos', [ServicoController::class, 'index'])->name('servicos.index');
-    Route::get('/servicos/create', [ServicoController::class, 'create'])->name('servicos.create');
-    Route::post('/servicos', [ServicoController::class, 'store'])->name('servicos.store');
-    Route::get('/servicos/{servico}/edit', [ServicoController::class, 'edit'])->name('servicos.edit');
-    Route::put('/servicos/{servico}', [ServicoController::class, 'update'])->name('servicos.update');
+    // Rotas de serviços
+    Route::resource('servicos', ServicoController::class)->except(['show', 'destroy']);
+
+    // Espelho de diaristas cadastradas externamente via API
+    Route::get('/diaristas-api', [DiaristaApiController::class, 'index'])->name('diaristas_api.index');
 });
 
 

@@ -322,6 +322,22 @@ return [
                 ],
             ],
         ],
+        [
+            'text'    => 'Diaristas (API Externa)',
+            'icon'    => 'fas fa-fw fa-user-nurse',
+            'submenu' => [
+                [
+                    'text' => 'Lista de Diaristas (Espelho)',
+                    'route'  => 'diaristas_api.index',
+                    'icon'    => 'fas fa-fw fa-list',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Documentação do Desenvolvedor',
+            'route' => 'api.docs',
+            'icon' => 'fas fa-fw fa-book',
+        ],
     ],
 
     /*

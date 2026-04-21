@@ -1,0 +1,299 @@
+openapi: 3.0.3
+info:
+  title: E-Diaristas API
+  version: 1.0.0
+  description: |
+    Documentação OpenAPI da API E-Diaristas.
+    Este arquivo descreve os endpoints públicos e o fluxo de cadastro de diaristas.
+
+servers:
+  - url: http://127.0.0.1:8000
+    description: Ambiente local
+
+tags:
+  - name: Raiz
+  - name: Diaristas
+  - name: Endereços
+  - name: Serviços
+
+paths:
+  /api:
+    get:
+      tags: [Raiz]
+      summary: Índice da API com links HATEOAS
+      responses:
+        '200':
+          description: Links de entrada da API
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  links:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+
+  /api/diaristas:
+    post:
+      tags: [Diaristas]
+      summary: Cadastra uma diarista
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiaristaStoreRequest'
+      responses:
+        '201':
+          description: Diarista cadastrada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaPadraoDiaristaCriada'
+        '422':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /api/diaristas/localidades:
+    get:
+      tags: [Diaristas]
+      summary: Busca diaristas por CEP
+      parameters:
+        - name: cep
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^\\d{8}$'
+      responses:
+        '200':
+          description: Diaristas encontrados para a localidade
+        '422':
+          description: CEP inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /api/diaristas/disponibilidade:
+    get:
+      tags: [Diaristas]
+      summary: Verifica disponibilidade de diaristas por CEP
+      parameters:
+        - name: cep
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^\\d{8}$'
+      responses:
+        '200':
+          description: Disponibilidade verificada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaDisponibilidade'
+        '422':
+          description: CEP inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /api/enderecos:
+    get:
+      tags: [Endereços]
+      summary: Busca endereço por CEP
+      parameters:
+        - name: cep
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^\\d{8}$'
+      responses:
+        '200':
+          description: Endereço encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '422':
+          description: CEP inválido ou não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /api/servicos:
+    get:
+      tags: [Serviços]
+      summary: Lista serviços disponíveis
+      responses:
+        '200':
+          description: Lista de serviços
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServicoItem'
+
+components:
+  schemas:
+    DiaristaStoreRequest:
+      type: object
+      required:
+        - nome_completo
+        - cpf
+        - nascimento
+        - foto_documento
+        - telefone
+        - chave_pix
+        - cidade_ids
+        - servicos
+      properties:
+        nome_completo:
+          type: string
+        cpf:
+          type: string
+          pattern: '^\\d{11}$'
+        nascimento:
+          type: string
+          format: date
+        foto_documento:
+          type: string
+        foto_usuario:
+          type: string
+          nullable: true
+        telefone:
+          type: string
+          pattern: '^\\d{11}$'
+        chave_pix:
+          type: string
+        reputacao:
+          type: integer
+          minimum: 1
+          maximum: 5
+          nullable: true
+        cidade_ids:
+          type: array
+          minItems: 1
+          items:
+            type: integer
+        servicos:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: [servico_id, valor, tempo_estimado_horas]
+            properties:
+              servico_id:
+                type: integer
+              valor:
+                type: number
+                format: float
+                minimum: 0.01
+              tempo_estimado_horas:
+                type: integer
+                minimum: 1
+                maximum: 12
+
+    RespostaPadraoDiaristaCriada:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 201
+        code:
+          type: string
+          example: success
+        message:
+          type: string
+          example: Diarista cadastrada com sucesso
+        data:
+          type: object
+          additionalProperties: true
+
+    RespostaDisponibilidade:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        code:
+          type: string
+          example: success
+        message:
+          type: string
+          example: Disponibilidade verificada com sucesso
+        disponibilidade:
+          type: boolean
+
+    ValidationError:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+    ServicoItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        valor_minimo:
+          type: number
+          format: float
+        quantidade_horas:
+          type: integer
+        porcentagem:
+          type: number
+          format: float
+        valor_quarto:
+          type: number
+          format: float
+        horas_quarto:
+          type: integer
+        valor_sala:
+          type: number
+          format: float
+        horas_sala:
+          type: integer
+        valor_banheiro:
+          type: number
+          format: float
+        horas_banheiro:
+          type: integer
+        valor_cozinha:
+          type: number
+          format: float
+        horas_cozinha:
+          type: integer
+        valor_quintal:
+          type: number
+          format: float
+        horas_quintal:
+          type: integer
+        valor_outros:
+          type: number
+          format: float
+        horas_outros:
+          type: integer
+        icone:
+          type: string
+        posicao:
+          type: integer
