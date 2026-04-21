@@ -37,9 +37,9 @@ class ServicoController extends Controller
      */
     public function store(ServicoRequest $request)
     {
-        $dados = $request->except('_token');
+        $dados = $request->validated();
 
-        $retornno = Servico::create($dados);
+        Servico::create($dados);
 
         return redirect()->route('servicos.index')->with('mensagem', 'Serviço cadastrado com sucesso!');
     }
@@ -64,7 +64,7 @@ class ServicoController extends Controller
      */
     public function update(ServicoRequest $request, Servico $servico)
     {
-        $dados = $request->except(['_token', '_method']);
+        $dados = $request->validated();
 
         $servico->update($dados);
 

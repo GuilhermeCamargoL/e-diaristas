@@ -1,60 +1,47 @@
 @csrf
-    
-    <div class="card">
-        <div class="card-body">
-            <fieldset>
-                <legend>Identificação</legend>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="nome">Nome</label>
-                            <input value="{{ old('nome',@$servico->nome) }}" type="input" class="form-control" name="nome" id="nome"  placeholder="Nome do serviço">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="icone">Ícone</label>
-                            <select name="icone" id="icone" class="form-control">
-                                <option value="">Seleciona o ícone</option>
-                                <option value="twf-cleaning-1" @selected(old('icone', @$servico->icone) == 'twf-cleaning-1')>Ícone 1</option>
-                                <option value="twf-cleaning-2" @selected(old('icone', @$servico->icone) == 'twf-cleaning-2')>Ícone 2</option>
-                                <option value="twf-cleaning-3" @selected(old('icone', @$servico->icone) == 'twf-cleaning-3')>Ícone 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="posicao">Posição na plataforma</label>
-                            <input value="{{ old('posicao',@$servico->posicao) }}" data-mask="00" type="input" class="form-control" name="posicao" id="posicao"  placeholder="Posição do serviço na plataforma">
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
 
-            <fieldset>
-                <legend>Globais</legend>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="valor_minimo">Valor Mínimo</label>
-                            <input value="{{ old('valor_minimo',@$servico->valor_minimo) }}" data-mask="#.##0,0" data-mask-reverse="true" type="input" class="form-control" name="valor_minimo" id="valor_minimo"  placeholder="Valor mínimo do serviço">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="quantidade_horas">Quantidade Mínima de horas</label>
-                            <input value="{{ old('quantidade_horas',@$servico->quantidade_horas) }}" data-mask="0" type="input" class="form-control" name="quantidade_horas" id="quantidade_horas"  placeholder="Quantidade mínima de horas">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="porcentagem">Porcentagem de Comissão</label>
-                            <input value="{{ old('porcentagem',@$servico->porcentagem) }}" data-mask="00" type="input" class="form-control" name="porcentagem" id="porcentagem"  placeholder="porcentagem de comissão no serviço">
-                        </div>
-                    </div>
+<div class="card card-outline card-primary shadow-sm mb-4">
+    <div class="card-body">
+        <fieldset class="mb-4">
+            <legend class="text-primary">Identificação</legend>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input value="{{ old('nome',@$servico->nome) }}" type="input" class="form-control" name="nome" id="nome" placeholder="Nome do serviço">
                 </div>
-            </fieldset>
+                <div class="col-md-4">
+                    <label for="icone" class="form-label">Ícone</label>
+                    <select name="icone" id="icone" class="form-control">
+                        <option value="">Seleciona o ícone</option>
+                        <option value="twf-cleaning-1" @selected(old('icone', @$servico->icone) == 'twf-cleaning-1')>Ícone 1</option>
+                        <option value="twf-cleaning-2" @selected(old('icone', @$servico->icone) == 'twf-cleaning-2')>Ícone 2</option>
+                        <option value="twf-cleaning-3" @selected(old('icone', @$servico->icone) == 'twf-cleaning-3')>Ícone 3</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="posicao" class="form-label">Posição na plataforma</label>
+                    <input value="{{ old('posicao',@$servico->posicao) }}" data-mask="00" type="input" class="form-control" name="posicao" id="posicao" placeholder="Posição do serviço na plataforma">
+                </div>
+            </div>
+        </fieldset>
 
+        <fieldset class="mb-4">
+            <legend class="text-primary">Globais</legend>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="valor_minimo" class="form-label">Valor Mínimo</label>
+                    <input value="{{ old('valor_minimo',@$servico->valor_minimo) }}" data-mask="#.##0,0" data-mask-reverse="true" type="input" class="form-control" name="valor_minimo" id="valor_minimo" placeholder="Valor mínimo do serviço">
+                </div>
+                <div class="col-md-4">
+                    <label for="quantidade_horas" class="form-label">Quantidade Mínima de horas</label>
+                    <input value="{{ old('quantidade_horas',@$servico->quantidade_horas) }}" data-mask="0" type="input" class="form-control" name="quantidade_horas" id="quantidade_horas" placeholder="Quantidade mínima de horas">
+                </div>
+                <div class="col-md-4">
+                    <label for="porcentagem" class="form-label">Porcentagem de Comissão</label>
+                    <input value="{{ old('porcentagem',@$servico->porcentagem) }}" data-mask="00" type="input" class="form-control" name="porcentagem" id="porcentagem" placeholder="porcentagem de comissão no serviço">
+                </div>
+            </div>
+        </fieldset>
             <fieldset>
                 <legend>Cômodos</legend>
                 <div class="row">
